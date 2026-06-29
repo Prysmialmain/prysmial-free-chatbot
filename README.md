@@ -2,77 +2,84 @@
 
 # Prysmial Chat
 
-**Ton interface de chat IA, avec les meilleurs modèles gratuits. Un seul fichier, zéro installation.**
+**Votre interface de chat IA, avec les meilleurs modèles gratuits. Une seule page, zéro installation.**
 
-Discute avec des modèles d'IA gratuits (Llama, Qwen, Nemotron, GPT-OSS, Hermes...)
-via [OpenRouter](https://openrouter.ai), depuis une page web que tu ouvres en
-double-cliquant. Pas de compte chez nous, pas de serveur, pas de build.
+Discutez avec des modèles d'IA gratuits (Llama, Qwen, Nemotron, GPT-OSS, Hermes...)
+via [OpenRouter](https://openrouter.ai). À utiliser en ligne ou chez vous.
 
-[Démarrer](#-démarrage-en-3-minutes) · [Obtenir une clé](#-obtenir-une-clé-openrouter) · [Personnaliser](#-personnaliser-les-modèles) · [Confidentialité](#-confidentialité-et-sécurité)
+### 👉 [chat.prysmial.com](https://chat.prysmial.com)
+
+[Utilisation](#utilisation) · [Obtenir une clé](#obtenir-une-clé-openrouter) · [Outils de codage](#pour-les-outils-de-codage) · [Confidentialité](#confidentialité)
 
 </div>
 
 ---
 
-## Qu'est-ce que c'est
+## Présentation
 
-Une mini application de chat tenant dans **un seul fichier `index.html`**. Tu l'ouvres
-dans ton navigateur, tu colles ta propre clé OpenRouter (gratuite), tu choisis un
-modèle par catégorie, et tu discutes. Les réponses s'affichent en streaming.
+Une interface de chat (comme ChatGPT) tenant dans **un seul fichier `index.html`**. Vous
+choisissez un modèle gratuit par catégorie, et vous discutez. Les réponses s'affichent au
+fur et à mesure.
 
 - **Zéro installation** : pas de Python, pas de Node, pas de terminal, pas de build.
 - **Zéro dépendance** : HTML, CSS et JavaScript natifs.
 - **Gratuit** : uniquement des modèles `:free` d'OpenRouter.
-- **Privé** : ta clé reste dans ton navigateur, les conversations ne quittent pas ta machine (sauf l'appel au modèle).
-- **Portable** : marche sur Mac, Windows, Linux, et sur mobile.
+- **Privé** : votre clé et vos conversations restent dans votre navigateur.
+- **Portable** : fonctionne sur ordinateur et sur mobile.
+
+## Utilisation
+
+1. Ouvrez **[chat.prysmial.com](https://chat.prysmial.com)** (ou téléchargez `index.html` et ouvrez-le dans votre navigateur).
+2. Créez une clé gratuite sur OpenRouter ([voir ci-dessous](#obtenir-une-clé-openrouter)) et collez-la.
+3. Choisissez une catégorie et un modèle, puis écrivez votre message.
+
+Pour un premier essai, choisissez *Chatbot général → gpt-oss-20b* : c'est l'un des modèles
+gratuits les plus disponibles.
 
 ## Fonctionnalités
 
 - Sélection du modèle par **catégorie** : Coding, Chatbot général, Raisonnement, Créatif.
-- **Streaming** des réponses (le texte s'écrit au fur et à mesure).
-- **Rendu Markdown léger** : gras, italique, code en ligne, blocs de code, listes.
-- **Historique de conversations** dans une sidebar (comme les grandes IA), avec reprise.
-- **Option « Conserver l'historique localement »** : sauvegarde dans le navigateur (IndexedDB).
-- **Dossier optionnel** (Chrome, Edge, Brave) : chaque conversation écrite en `.json` lisible sur ton disque. Export/Import `.json` ailleurs.
-- Clé API mémorisée dans le navigateur (`localStorage`), avec bouton **Effacer ma clé**.
-- **Guide intégré** pas à pas pour créer sa clé.
-- Gestion d'erreurs claire (clé invalide, modèle saturé, réseau).
+- Réponses en **streaming** et mise en forme **Markdown** (code, gras, listes).
+- **Historique de conversations** dans une barre latérale, avec reprise.
+- Option **« Conserver l'historique localement »** (sauvegarde dans le navigateur).
+- **Dossier optionnel** (Chrome, Edge, Brave) : une conversation = un fichier `.json` sur votre disque.
+- Clé mémorisée localement, bouton **Déconnexion**, et fenêtre **Confidentialité** intégrée.
 
-## 🚀 Démarrage en 3 minutes
+## Obtenir une clé OpenRouter
 
-1. **Récupère le fichier.** Télécharge `index.html` (et `guide.html` à côté), ou clone le dépôt :
-   ```bash
-   git clone https://github.com/Prysmialmain/prysmial-free-chatbot.git
-   ```
-2. **Ouvre `index.html`** dans ton navigateur (double-clic).
-3. **Crée une clé gratuite** sur OpenRouter (voir ci-dessous) et colle-la.
-4. **Choisis** une catégorie et un modèle, puis écris ton message.
+Un guide illustré est inclus : cliquez sur **« Comment obtenir une clé gratuite ? »** sur
+l'écran d'accueil, ou ouvrez `guide.html`. En résumé :
 
-> Astuce : pour ton tout premier essai, prends *Chatbot général → gpt-oss-20b*.
-> C'est l'un des modèles gratuits les plus disponibles.
+1. Créez un compte sur [openrouter.ai](https://openrouter.ai) (Google, GitHub ou e-mail).
+2. Ouvrez votre espace de travail (**Personal → Workspaces**).
+3. Allez dans **API Keys**.
+4. Cliquez **+ New Key**, donnez un nom, mettez la limite de crédit à **0**, puis **Create**.
+5. **Copiez la clé** (affichée une seule fois) et collez-la dans Prysmial Chat.
 
-## 🔑 Obtenir une clé OpenRouter
+**Faut-il payer ?** Non. Les modèles gratuits (suffixe `:free`) ne consomment aucun crédit.
+Mettre la limite à **0** est recommandé : la clé ne pourra jamais dépenser d'argent.
 
-Le guide complet et illustré est inclus dans l'app : ouvre `guide.html`, ou clique
-sur **« Comment obtenir une clé gratuite ? »** depuis l'écran d'accueil. En résumé :
+> Les modèles gratuits ont des quotas quotidiens et sont parfois saturés (erreur 429).
+> Dans ce cas, réessayez plus tard ou changez de modèle.
 
-1. Crée un compte sur [openrouter.ai](https://openrouter.ai) (Google, GitHub ou e-mail).
-2. Ouvre ton espace de travail (profil **Personal → Workspaces**).
-3. Va dans le menu **API Keys**.
-4. Clique **+ New Key**, donne un nom, mets la limite de crédit à **0**, puis **Create**.
-5. **Copie la clé** (affichée une seule fois) et colle-la dans Prysmial Chat.
+## Pour les outils de codage
 
-**Faut-il payer ?** Non. Les modèles gratuits (suffixe `:free`) ne consomment
-aucun crédit. Mettre la limite de crédit à **0** est même recommandé : la clé ne
-pourra jamais dépenser d'argent par accident.
+Si vous utilisez un assistant de codage (Claude Code, Cursor, etc.), fournissez-lui ce
+**prompt unique** pour installer et lancer le chatbot chez vous :
 
-> Note : les modèles gratuits ont des quotas quotidiens et sont parfois saturés
-> (erreur 429). Dans ce cas, réessaie un peu plus tard ou change de modèle.
+```text
+Télécharge ces deux fichiers et place-les dans un même dossier local :
+- https://raw.githubusercontent.com/Prysmialmain/prysmial-free-chatbot/main/index.html
+- https://raw.githubusercontent.com/Prysmialmain/prysmial-free-chatbot/main/guide.html
+Puis ouvre index.html dans mon navigateur par défaut.
+C'est une page web autonome (HTML/CSS/JS, aucune dépendance, aucune installation, aucun
+build). Ne modifie rien. Je collerai ensuite ma propre clé OpenRouter dans l'interface.
+```
 
-## 🎛 Personnaliser les modèles
+## Personnaliser les modèles
 
 Les modèles sont regroupés par catégorie dans une table en haut du `<script>` de
-`index.html`. Édite-la librement :
+`index.html`. Modifiez-la librement :
 
 ```js
 const CATEGORIES = {
@@ -83,30 +90,26 @@ const CATEGORIES = {
 };
 ```
 
-La liste à jour des modèles gratuits est disponible sur
-[openrouter.ai/models](https://openrouter.ai/models?max_price=0). Un modèle est
-gratuit quand son identifiant finit par `:free`.
+La liste à jour des modèles gratuits est sur
+[openrouter.ai/models](https://openrouter.ai/models?max_price=0) (identifiant terminé par `:free`).
 
-## 🔒 Confidentialité et sécurité
+## Confidentialité
 
-- **Ta clé reste chez toi.** Elle est stockée dans le `localStorage` de ton
-  navigateur et n'est envoyée qu'à l'API d'OpenRouter. Aucun serveur intermédiaire.
-- **Aucune clé dans ce dépôt.** Chacun utilise la sienne.
-- **Historique désactivé par défaut** : sans rien activer, les conversations vivent
-  en mémoire et disparaissent au rechargement. Si tu coches « Conserver l'historique
-  localement », elles sont stockées **sur ta machine** (navigateur, ou dossier que tu
-  choisis). Rien n'est envoyé sur un serveur.
-- **Anti-injection** : les réponses des modèles sont échappées avant rendu, pour
-  qu'un contenu malicieux ne puisse pas exécuter de code dans la page.
-- Sur un ordinateur partagé, utilise le bouton **Effacer ma clé** en partant.
+L'application n'a **aucun serveur** et ne stocke **rien** de votre côté hébergeur :
 
-## 🛠 Comment ça marche
+- Votre clé reste dans votre navigateur ; elle n'est envoyée qu'à OpenRouter.
+- Vos messages partent directement de votre navigateur vers OpenRouter.
+- Vos conversations sont enregistrées chez vous (navigateur, ou dossier de votre choix), et
+  l'historique est **désactivé par défaut**.
 
-- `index.html` contient tout : structure, style (DA Prysmial), et logique.
-- Appels directs à `POST https://openrouter.ai/api/v1/chat/completions` avec
-  `Authorization: Bearer <ta-clé>` et `stream: true`.
-- L'API OpenRouter est **sans état** : tout l'historique de la conversation est
-  renvoyé à chaque message. C'est pour cela que le contexte est « gardé » côté client.
+Le détail complet est accessible dans l'application via le lien **« Comment sont gérées mes
+données ? »**.
+
+## Fonctionnement
+
+Appels directs à `POST https://openrouter.ai/api/v1/chat/completions` avec votre clé en
+en-tête `Authorization`. L'API OpenRouter est sans état : tout l'historique de la
+conversation est renvoyé à chaque message, ce qui maintient le contexte côté navigateur.
 
 ## Fichiers
 
@@ -119,7 +122,7 @@ docs/          Spécification et plan d'implémentation
 
 ## Licence
 
-Libre d'utilisation. Fais-en ce que tu veux.
+Libre d'utilisation.
 
 ---
 
