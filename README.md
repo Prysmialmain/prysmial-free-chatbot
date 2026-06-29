@@ -85,7 +85,8 @@ est sur [openrouter.ai/models](https://openrouter.ai/models?max_price=0).
 
 Téléchargez `index.html` et `guide.html`, placez-les dans le même dossier, et ouvrez
 `index.html` dans votre navigateur. Aucune installation. Une connexion internet reste
-nécessaire pour parler à l'IA.
+nécessaire pour parler à l'IA. Pour retrouver la typographie exacte, copiez aussi le
+dossier `fonts/` à côté ; sinon la police de votre système est utilisée.
 
 ## Licence
 
