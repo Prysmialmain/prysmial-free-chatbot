@@ -687,7 +687,8 @@ const linkFolderBtn = document.getElementById("link-folder");
 function showFolderState(){
   if (dirHandle){
     folderState.hidden = false;
-    folderState.innerHTML = '<span class="ok"></span> Dossier lié : ' + (dirHandle.name || "ok");
+    folderState.innerHTML = '<span class="ok"></span> Dossier lié : ';
+    folderState.append(dirHandle.name || "ok");  // nom via append (text node) -> aucun HTML injecté
     linkFolderBtn.textContent = "Changer de dossier";
   } else {
     folderState.hidden = true;
