@@ -151,6 +151,29 @@
   footer .dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:7px;vertical-align:1px;
     background:linear-gradient(90deg,var(--blue),var(--cyan),var(--lime),var(--magenta))}
 
+  .linklike{background:none;border:none;color:var(--cyan);font-size:13px;margin-top:14px;cursor:pointer;padding:0;font-family:inherit}
+  .linklike:hover{text-decoration:underline;text-underline-offset:3px}
+
+  /* fenêtre confidentialité */
+  .modal-overlay{position:fixed;inset:0;z-index:80;background:rgba(4,5,10,.74);
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+  .modal{position:relative;width:min(640px,100%);max-height:88vh;overflow-y:auto;
+    border:1px solid var(--line-2);border-radius:18px;padding:30px 30px 26px;
+    background:linear-gradient(180deg,var(--card),#0c0e17);box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .modal h2{margin:8px 0 12px;font-size:24px;font-weight:800;letter-spacing:-.02em;color:#fff}
+  .modal h3{margin:20px 0 6px;font-size:15px;font-weight:700;color:#fff}
+  .modal p{margin:0 0 10px;color:var(--muted);font-size:14.5px}
+  .modal .lead{color:var(--ink);font-size:15.5px}
+  .modal ul{margin:6px 0 10px;padding-left:20px;color:var(--muted);font-size:14.5px}
+  .modal ul li{margin:4px 0}
+  .modal strong{color:var(--ink)}
+  .modal .sig{margin-top:20px;padding-top:14px;border-top:1px solid var(--line);
+    font-family:var(--mono);font-size:11.5px;color:var(--faint)}
+  .modal-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--muted);
+    font-size:26px;line-height:1;cursor:pointer;padding:2px 9px;border-radius:9px}
+  .modal-close:hover{color:#fff;background:color-mix(in srgb,var(--card) 70%,transparent)}
+
   .hidden{display:none!important}
 
   /* mobile : sidebar en tiroir */
@@ -188,6 +211,7 @@
        <a href="guide.html">Comment obtenir une clé gratuite ?</a></p>
     <input id="key-input" type="password" placeholder="sk-or-v1-..." autocomplete="off" spellcheck="false">
     <button id="key-save" class="btn-p">Commencer</button>
+    <div><button type="button" id="privacy-link" class="linklike">Comment sont gérées mes données ?</button></div>
   </section>
 
   <div id="app" class="hidden">
@@ -245,9 +269,50 @@
     </div>
   </div>
 
+  <div id="privacy-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="privacy-title">
+    <div class="modal">
+      <button class="modal-close" id="privacy-close" aria-label="Fermer">&times;</button>
+      <span class="k" style="color:var(--lime)">Confidentialité</span>
+      <h2 id="privacy-title">Comment sont gérées vos données ?</h2>
+      <p class="lead">En clair : <strong>on ne stocke rien</strong>. Vos conversations vous
+         appartiennent et restent chez vous.</p>
+
+      <h3>Tout se passe dans votre navigateur</h3>
+      <p>Cette page est un simple fichier qui s'exécute sur votre appareil. Concrètement :</p>
+      <ul>
+        <li>Votre clé OpenRouter reste dans <strong>votre</strong> navigateur. Nous ne la recevons jamais.</li>
+        <li>Vos messages partent <strong>directement</strong> de votre navigateur vers OpenRouter. Ils ne passent pas par nos serveurs.</li>
+        <li>Votre historique est enregistré <strong>chez vous</strong> (dans votre navigateur, ou dans un dossier que vous choisissez).</li>
+      </ul>
+
+      <h3>Ce que nous ne faisons pas</h3>
+      <ul>
+        <li>Aucun compte, aucun mot de passe, aucun cookie de suivi.</li>
+        <li>Aucune base de données, aucune conversation enregistrée chez nous.</li>
+        <li>Aucune revente de données : il n'y a tout simplement pas de données à vendre.</li>
+      </ul>
+
+      <h3>Vous gardez le contrôle</h3>
+      <p>L'historique est <strong>désactivé par défaut</strong>. Vous l'activez si vous le
+         souhaitez, vous pouvez supprimer une conversation à tout moment, et le bouton
+         « Déconnexion » retire votre clé de l'appareil. Comme tout est local, votre
+         historique est propre à chaque appareil et navigateur.</p>
+
+      <h3>Ce qui s'applique quand même</h3>
+      <p>C'est OpenRouter qui exécute l'IA : votre utilisation est soumise à
+         <a href="https://openrouter.ai/privacy" target="_blank" rel="noopener">leurs conditions</a>.
+         Et comme pour n'importe quel site web, notre hébergeur voit des informations
+         techniques standards (par exemple votre adresse IP).</p>
+
+      <p class="sig">Offert et mis à disposition par
+         <a href="https://prysmial.com" target="_blank" rel="noopener">prysmial.com</a>.</p>
+    </div>
+  </div>
+
   <footer>
     <span class="dot" aria-hidden="true"></span>
     Offert et mis à disposition par <a href="https://prysmial.com" target="_blank" rel="noopener">prysmial.com</a>
+    &nbsp;·&nbsp; <button type="button" id="privacy-link-footer" class="linklike" style="margin-top:0;font-size:11px;color:var(--muted)">Confidentialité</button>
   </footer>
 
 <script>
@@ -689,6 +754,18 @@ keyInput.addEventListener("keydown", (e) => { if (e.key === "Enter") document.ge
 
 document.getElementById("clear-key").addEventListener("click", clearKey);
 document.getElementById("new-conv").addEventListener("click", newConversation);
+
+// fenêtre confidentialité
+const privacyModal = document.getElementById("privacy-modal");
+const openPrivacy = () => privacyModal.classList.remove("hidden");
+const closePrivacy = () => privacyModal.classList.add("hidden");
+document.getElementById("privacy-link").addEventListener("click", openPrivacy);
+document.getElementById("privacy-link-footer").addEventListener("click", openPrivacy);
+document.getElementById("privacy-close").addEventListener("click", closePrivacy);
+privacyModal.addEventListener("click", (e) => { if (e.target === privacyModal) closePrivacy(); });
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !privacyModal.classList.contains("hidden")) closePrivacy();
+});
 persistToggle.addEventListener("change", () => setPersist(persistToggle.checked));
 linkFolderBtn.addEventListener("click", linkFolder);
 
