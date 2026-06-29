@@ -31,8 +31,10 @@ modèle par catégorie, et tu discutes. Les réponses s'affichent en streaming.
 - Sélection du modèle par **catégorie** : Coding, Chatbot général, Raisonnement, Créatif.
 - **Streaming** des réponses (le texte s'écrit au fur et à mesure).
 - **Rendu Markdown léger** : gras, italique, code en ligne, blocs de code, listes.
+- **Historique de conversations** dans une sidebar (comme les grandes IA), avec reprise.
+- **Option « Conserver l'historique localement »** : sauvegarde dans le navigateur (IndexedDB).
+- **Dossier optionnel** (Chrome, Edge, Brave) : chaque conversation écrite en `.json` lisible sur ton disque. Export/Import `.json` ailleurs.
 - Clé API mémorisée dans le navigateur (`localStorage`), avec bouton **Effacer ma clé**.
-- Bouton **Nouvelle conversation** pour repartir d'un contexte vide.
 - **Guide intégré** pas à pas pour créer sa clé.
 - Gestion d'erreurs claire (clé invalide, modèle saturé, réseau).
 
@@ -90,8 +92,10 @@ gratuit quand son identifiant finit par `:free`.
 - **Ta clé reste chez toi.** Elle est stockée dans le `localStorage` de ton
   navigateur et n'est envoyée qu'à l'API d'OpenRouter. Aucun serveur intermédiaire.
 - **Aucune clé dans ce dépôt.** Chacun utilise la sienne.
-- **Conversations non sauvegardées** : elles vivent en mémoire et disparaissent au
-  rechargement de la page. (Une option d'historique local est prévue, voir plus bas.)
+- **Historique désactivé par défaut** : sans rien activer, les conversations vivent
+  en mémoire et disparaissent au rechargement. Si tu coches « Conserver l'historique
+  localement », elles sont stockées **sur ta machine** (navigateur, ou dossier que tu
+  choisis). Rien n'est envoyé sur un serveur.
 - **Anti-injection** : les réponses des modèles sont échappées avant rendu, pour
   qu'un contenu malicieux ne puisse pas exécuter de code dans la page.
 - Sur un ordinateur partagé, utilise le bouton **Effacer ma clé** en partant.
@@ -103,12 +107,6 @@ gratuit quand son identifiant finit par `:free`.
   `Authorization: Bearer <ta-clé>` et `stream: true`.
 - L'API OpenRouter est **sans état** : tout l'historique de la conversation est
   renvoyé à chaque message. C'est pour cela que le contexte est « gardé » côté client.
-
-## 🗺 À venir
-
-- [ ] Option **« Conserver l'historique localement »** (case à cocher).
-- [ ] **Sidebar des conversations** (comme les grandes IA), avec reprise.
-- [ ] Choix du **répertoire** de lecture/écriture pour l'historique.
 
 ## Fichiers
 

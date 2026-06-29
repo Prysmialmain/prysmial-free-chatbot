@@ -140,9 +140,18 @@ Tout le code Python actuel est **supprimé** (`ask.py`, `compare_models.py`,
 `requirements.txt`, `.env`, `.env.example`, `.venv/`, `__pycache__/`) : il ne sert
 plus le but. Le repo ne contient que ce qui fait tourner l'app.
 
+## 8b. Ajout v1.1 — Historique local (livré)
+
+- Sidebar de conversations (toujours visible ; tiroir sur mobile), reprise au clic, suppression, titre auto.
+- Case « Conserver l'historique localement » : persistance navigateur via **IndexedDB**.
+- Bouton « Lier un dossier » (File System Access API, Chromium) : un fichier `.json`
+  lisible par conversation ; repli **Export/Import** `.json` sur les autres navigateurs.
+- Page guide `guide.html` (DA Prysmial) liée depuis l'écran d'accueil pour obtenir une clé.
+- Crédit « Offert et mis à disposition par prysmial.com » en pied de page.
+
 ## 9. Hors périmètre (YAGNI v1)
 
-- Persistance des conversations (sauvegarde sur disque / historique).
+- ~~Persistance des conversations~~ → livrée en v1.1 (voir 8b).
 - Récupération live des modèles depuis l'API (on reste curé en dur).
 - Multi-conversations / onglets.
 - Réglages avancés (température, max tokens, system prompt éditable).

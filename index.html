@@ -18,6 +18,7 @@
     --sans:"Hanken Grotesk",system-ui,sans-serif;
     --mono:"JetBrains Mono",ui-monospace,monospace;
     --ease:cubic-bezier(.22,.7,.2,1);
+    --sidebar-w:268px;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
@@ -61,6 +62,7 @@
   .btn-p:hover{transform:translateY(-2px);box-shadow:0 10px 30px color-mix(in srgb,var(--lime) 32%,transparent)}
   .btn-g{background:color-mix(in srgb,var(--card) 50%,transparent);font-weight:600}
   .btn-g:hover{border-color:var(--lime)}
+  .btn-sm{padding:7px 11px;font-size:13px;border-radius:9px}
   select{appearance:none;-webkit-appearance:none;padding-right:30px;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239498a6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
     background-repeat:no-repeat;background-position:right 11px center}
@@ -77,14 +79,45 @@
   .g-iri{background:linear-gradient(100deg,var(--cyan),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
 
   /* app */
-  #app{position:relative;z-index:1;height:100%;display:flex;flex-direction:column}
+  #app{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;min-height:0}
   header{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px 16px;
     border-bottom:1px solid var(--line);
     background:color-mix(in srgb,var(--paper) 80%,transparent);
     backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
   header .spacer{flex:1}
   header .sel{display:flex;gap:8px;align-items:center}
+  #sidebar-toggle{display:none;padding:8px 11px}
 
+  .body-row{flex:1;display:flex;min-height:0}
+
+  /* sidebar */
+  #sidebar{width:var(--sidebar-w);flex:none;border-right:1px solid var(--line);
+    display:flex;flex-direction:column;min-height:0;
+    background:color-mix(in srgb,var(--card) 55%,transparent)}
+  #sidebar .sb-top{padding:12px;display:flex;flex-direction:column;gap:10px;border-bottom:1px solid var(--line)}
+  #new-conv{width:100%;display:flex;align-items:center;justify-content:center;gap:8px}
+  .persist-row{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted);cursor:pointer;user-select:none}
+  .persist-row input{width:16px;height:16px;accent-color:var(--lime);padding:0;cursor:pointer}
+  .folder-row{display:flex;gap:7px;flex-wrap:wrap}
+  .folder-row button{flex:1;min-width:0}
+  #folder-state{font-family:var(--mono);font-size:10.5px;letter-spacing:.02em;color:var(--faint);
+    display:flex;align-items:center;gap:6px;word-break:break-all}
+  #folder-state .ok{width:6px;height:6px;border-radius:50%;background:var(--lime);flex:none}
+
+  #conv-list{flex:1;overflow-y:auto;padding:8px}
+  .conv{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:10px;cursor:pointer;
+    border:1px solid transparent;margin-bottom:3px;transition:background .2s var(--ease),border-color .2s var(--ease)}
+  .conv:hover{background:color-mix(in srgb,var(--card) 70%,transparent)}
+  .conv.active{background:color-mix(in srgb,var(--lime) 8%,var(--card));border-color:color-mix(in srgb,var(--lime) 26%,var(--line))}
+  .conv .title{flex:1;font-size:13.5px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .conv.active .title{color:#fff}
+  .conv .del{flex:none;opacity:0;border:none;background:none;color:var(--faint);padding:3px;border-radius:6px;line-height:0}
+  .conv:hover .del{opacity:1}
+  .conv .del:hover{color:var(--magenta);background:color-mix(in srgb,var(--magenta) 14%,transparent)}
+  .sb-empty{padding:18px 12px;font-size:13px;color:var(--faint);text-align:center;line-height:1.5}
+
+  /* zone chat */
+  .chat-col{flex:1;display:flex;flex-direction:column;min-width:0;min-height:0}
   #messages{flex:1;overflow-y:auto;padding:22px 16px;display:flex;flex-direction:column;gap:14px;
     max-width:920px;width:100%;margin:0 auto}
   .msg{max-width:84%;padding:12px 16px;border-radius:14px;font-size:15px;word-wrap:break-word;overflow-wrap:anywhere}
@@ -103,19 +136,33 @@
   .msg .cursor{display:inline-block;width:7px;height:15px;background:var(--lime);margin-left:2px;
     vertical-align:-2px;animation:blink 1s steps(2) infinite}
   @keyframes blink{0%,50%{opacity:1}50.01%,100%{opacity:0}}
+  .empty-chat{margin:auto;text-align:center;color:var(--faint);max-width:42ch}
+  .empty-chat .pk{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--lime)}
+  .empty-chat h3{margin:10px 0 6px;color:#fff;font-weight:700;font-size:20px;letter-spacing:-.01em}
 
   form#composer{display:flex;gap:10px;padding:14px 16px;border-top:1px solid var(--line);
     max-width:920px;width:100%;margin:0 auto}
   #prompt{flex:1;resize:none;height:46px;max-height:180px;font-size:15px}
   #send{align-self:stretch}
 
-  footer{position:relative;z-index:1;text-align:center;padding:10px;border-top:1px solid var(--line);
+  footer{position:relative;z-index:1;text-align:center;padding:9px;border-top:1px solid var(--line);
     font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--faint)}
   footer a{color:var(--muted)}
   footer .dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:7px;vertical-align:1px;
     background:linear-gradient(90deg,var(--blue),var(--cyan),var(--lime),var(--magenta))}
 
   .hidden{display:none!important}
+
+  /* mobile : sidebar en tiroir */
+  @media(max-width:820px){
+    #sidebar-toggle{display:inline-flex;align-items:center}
+    #sidebar{position:absolute;z-index:40;top:0;bottom:0;left:0;
+      box-shadow:0 0 40px rgba(0,0,0,.5);transform:translateX(-100%);transition:transform .25s var(--ease);
+      background:var(--card)}
+    #app.sb-open #sidebar{transform:translateX(0)}
+    .sb-backdrop{display:none;position:absolute;inset:0;z-index:35;background:rgba(0,0,0,.5)}
+    #app.sb-open .sb-backdrop{display:block}
+  }
 </style>
 </head>
 <body>
@@ -124,7 +171,6 @@
   <div class="glow g1" aria-hidden="true"></div>
   <div class="glow g2" aria-hidden="true"></div>
 
-  <!-- Logo prisme réutilisable -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs><linearGradient id="prysm" x1="16" y1="47" x2="48" y2="47" gradientUnits="userSpaceOnUse">
       <stop stop-color="#2e6bff"/><stop offset=".26" stop-color="#28d6c8"/>
@@ -146,6 +192,9 @@
 
   <div id="app" class="hidden">
     <header>
+      <button id="sidebar-toggle" class="btn-g" title="Conversations" aria-label="Afficher les conversations">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
       <span class="brand">
         <svg width="26" height="26" viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#16161a"/><path d="M16 47 32 15l16 32" fill="none" stroke="url(#prysm)" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <b>Prysmial Chat</b>
@@ -159,16 +208,38 @@
         <span class="k">Modèle</span>
         <select id="model-select"></select>
       </span>
-      <button id="new-conv" class="btn-g">Nouvelle conversation</button>
       <button id="clear-key" class="btn-g">Effacer ma clé</button>
     </header>
 
-    <div id="messages"></div>
+    <div class="body-row">
+      <aside id="sidebar">
+        <div class="sb-top">
+          <button id="new-conv" class="btn-p btn-sm">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+            Nouvelle conversation
+          </button>
+          <label class="persist-row">
+            <input type="checkbox" id="persist-toggle">
+            Conserver l'historique localement
+          </label>
+          <div class="folder-row" id="folder-row" hidden>
+            <button id="link-folder" class="btn-g btn-sm">Lier un dossier</button>
+          </div>
+          <div id="folder-state" hidden></div>
+        </div>
+        <div id="conv-list"></div>
+      </aside>
 
-    <form id="composer">
-      <textarea id="prompt" placeholder="Écris ton message. Entrée pour envoyer, Maj+Entrée pour un saut de ligne."></textarea>
-      <button id="send" class="btn-p" type="submit">Envoyer</button>
-    </form>
+      <div class="sb-backdrop" id="sb-backdrop"></div>
+
+      <div class="chat-col">
+        <div id="messages"></div>
+        <form id="composer">
+          <textarea id="prompt" placeholder="Écris ton message. Entrée pour envoyer, Maj+Entrée pour un saut de ligne."></textarea>
+          <button id="send" class="btn-p" type="submit">Envoyer</button>
+        </form>
+      </div>
+    </div>
   </div>
 
   <footer>
@@ -254,14 +325,163 @@ function renderMarkdownLight(text){
 }
 
 /* ============================================================
-   5. Conversation : envoi + streaming + affichage
+   5. Persistance : IndexedDB + dossier optionnel
    ============================================================ */
+const DB_NAME = "prysmial-chat";
+const PERSIST_KEY = "or_persist";
+let persist = localStorage.getItem(PERSIST_KEY) === "1";
+let dirHandle = null;        // dossier lié (File System Access API)
+const fsSupported = "showDirectoryPicker" in window;
+
+function idbOpen(){
+  return new Promise((res, rej) => {
+    const r = indexedDB.open(DB_NAME, 1);
+    r.onupgradeneeded = () => {
+      const db = r.result;
+      if (!db.objectStoreNames.contains("conversations")) db.createObjectStore("conversations", { keyPath:"id" });
+      if (!db.objectStoreNames.contains("kv")) db.createObjectStore("kv");
+    };
+    r.onsuccess = () => res(r.result);
+    r.onerror = () => rej(r.error);
+  });
+}
+async function idbTx(store, mode, fn){
+  const db = await idbOpen();
+  return new Promise((res, rej) => {
+    const tx = db.transaction(store, mode);
+    const st = tx.objectStore(store);
+    const out = fn(st);
+    tx.oncomplete = () => res(out && out.result !== undefined ? out.result : out);
+    tx.onerror = () => rej(tx.error);
+  });
+}
+const idbPutConv  = (c)  => idbTx("conversations","readwrite", st => st.put(c));
+const idbDelConv  = (id) => idbTx("conversations","readwrite", st => st.delete(id));
+const idbAllConv  = ()   => idbTx("conversations","readonly",  st => st.getAll());
+const idbSetKV    = (k,v)=> idbTx("kv","readwrite", st => st.put(v,k));
+const idbGetKV    = (k)  => idbTx("kv","readonly",  st => st.get(k));
+
+function safeName(s){
+  return (s || "conversation").replace(/[\/\\:*?"<>|]+/g,"-").replace(/\s+/g,"_").slice(0,48);
+}
+function fileNameFor(conv){
+  if (!conv.file) conv.file = `${safeName(conv.title)}-${conv.id.slice(0,8)}.json`;
+  return conv.file;
+}
+async function ensureDirPermission(handle){
+  if (!handle) return false;
+  const opts = { mode:"readwrite" };
+  if ((await handle.queryPermission(opts)) === "granted") return true;
+  if ((await handle.requestPermission(opts)) === "granted") return true;
+  return false;
+}
+async function writeToFolder(conv){
+  if (!dirHandle) return;
+  try{
+    const fh = await dirHandle.getFileHandle(fileNameFor(conv), { create:true });
+    const w = await fh.createWritable();
+    await w.write(JSON.stringify(conv, null, 2));
+    await w.close();
+  }catch(e){ /* permission révoquée ou erreur disque : on ignore silencieusement */ }
+}
+async function removeFromFolder(conv){
+  if (!dirHandle || !conv.file) return;
+  try{ await dirHandle.removeEntry(conv.file); }catch(e){}
+}
+async function readFolderConversations(){
+  if (!dirHandle) return [];
+  const out = [];
+  try{
+    for await (const [name, handle] of dirHandle.entries()){
+      if (handle.kind !== "file" || !name.endsWith(".json")) continue;
+      try{
+        const text = await (await handle.getFile()).text();
+        const c = JSON.parse(text);
+        if (c && c.id && Array.isArray(c.messages)){ c.file = name; out.push(c); }
+      }catch(e){}
+    }
+  }catch(e){}
+  return out;
+}
+
+/* ============================================================
+   6. Conversations (état + sidebar)
+   ============================================================ */
+let conversations = [];     // {id, title, model, createdAt, updatedAt, messages, file?}
+let currentId = null;
+
+const convListEl = document.getElementById("conv-list");
 const messagesEl = document.getElementById("messages");
 const promptEl = document.getElementById("prompt");
-let messages = [];
-let busy = false;
 
-function addMessage(role, content, isError){
+function currentConv(){ return conversations.find(c => c.id === currentId); }
+function deriveTitle(text){ const t = text.trim().replace(/\s+/g," "); return t.length > 42 ? t.slice(0,42)+"…" : t; }
+
+function newConversation(){
+  const conv = { id: crypto.randomUUID(), title:"", model: currentModel,
+                 createdAt: Date.now(), updatedAt: Date.now(), messages: [] };
+  conversations.unshift(conv);
+  currentId = conv.id;
+  renderMessages();
+  renderConvList();
+  closeSidebarMobile();
+  promptEl.focus();
+}
+
+async function saveCurrent(){
+  const conv = currentConv();
+  if (!conv) return;
+  conv.updatedAt = Date.now();
+  if (persist){ await idbPutConv(conv); await writeToFolder(conv); }
+}
+
+function openConversation(id){
+  currentId = id;
+  renderMessages();
+  renderConvList();
+  closeSidebarMobile();
+  promptEl.focus();
+}
+
+async function deleteConversation(id){
+  const conv = conversations.find(c => c.id === id);
+  conversations = conversations.filter(c => c.id !== id);
+  if (persist){ await idbDelConv(id); if (conv) await removeFromFolder(conv); }
+  if (currentId === id){
+    if (conversations.length) currentId = conversations[0].id;
+    else { newConversation(); return; }
+  }
+  renderMessages();
+  renderConvList();
+}
+
+function renderConvList(){
+  convListEl.innerHTML = "";
+  if (!conversations.length){
+    convListEl.innerHTML = '<div class="sb-empty">Aucune conversation pour l\'instant.</div>';
+    return;
+  }
+  for (const c of conversations){
+    const row = document.createElement("div");
+    row.className = "conv" + (c.id === currentId ? " active" : "");
+    const title = document.createElement("span");
+    title.className = "title";
+    title.textContent = c.title || "Nouvelle conversation";
+    row.appendChild(title);
+    const del = document.createElement("button");
+    del.className = "del"; del.title = "Supprimer"; del.setAttribute("aria-label","Supprimer");
+    del.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>';
+    del.addEventListener("click", (e) => { e.stopPropagation(); deleteConversation(c.id); });
+    row.appendChild(del);
+    row.addEventListener("click", () => openConversation(c.id));
+    convListEl.appendChild(row);
+  }
+}
+
+/* ============================================================
+   7. Affichage des messages
+   ============================================================ */
+function appendMessageEl(role, content, isError){
   const div = document.createElement("div");
   div.className = "msg " + role + (isError ? " error" : "");
   const who = role === "user" ? "Vous" : (isError ? "Erreur" : "Assistant");
@@ -271,6 +491,22 @@ function addMessage(role, content, isError){
   messagesEl.scrollTop = messagesEl.scrollHeight;
   return div.querySelector(".body");
 }
+function renderEmptyState(){
+  messagesEl.innerHTML = '<div class="empty-chat"><span class="pk">Prysmial Chat</span>' +
+    '<h3>Pose ta première question</h3>' +
+    '<p>Choisis une catégorie et un modèle en haut, puis écris ci-dessous.</p></div>';
+}
+function renderMessages(){
+  messagesEl.innerHTML = "";
+  const conv = currentConv();
+  if (!conv || !conv.messages.length){ renderEmptyState(); return; }
+  for (const m of conv.messages) appendMessageEl(m.role, m.content, false);
+}
+
+/* ============================================================
+   8. Conversation : envoi + streaming
+   ============================================================ */
+let busy = false;
 
 async function sendMessage(){
   if (busy) return;
@@ -278,13 +514,20 @@ async function sendMessage(){
   if (!text) return;
   if (!apiKey){ showKeyPanel(); return; }
 
+  let conv = currentConv();
+  if (!conv){ newConversation(); conv = currentConv(); }
+  if (!conv.messages.length){ messagesEl.innerHTML = ""; }  // retire l'état vide
+
   busy = true;
   promptEl.value = "";
   promptEl.style.height = "46px";
-  messages.push({ role:"user", content:text });
-  addMessage("user", text);
 
-  const body = addMessage("assistant", "");
+  conv.messages.push({ role:"user", content:text });
+  appendMessageEl("user", text);
+  if (!conv.title){ conv.title = deriveTitle(text); renderConvList(); }
+  conv.model = currentModel;
+
+  const body = appendMessageEl("assistant", "");
   body.innerHTML = '<span class="cursor"></span>';
   let acc = "";
 
@@ -294,7 +537,7 @@ async function sendMessage(){
       headers:{ "Authorization":"Bearer "+apiKey, "Content-Type":"application/json" },
       body: JSON.stringify({
         model: currentModel,
-        messages: [{ role:"system", content:SYSTEM_PROMPT }, ...messages],
+        messages: [{ role:"system", content:SYSTEM_PROMPT }, ...conv.messages],
         stream: true,
       }),
     });
@@ -303,6 +546,7 @@ async function sendMessage(){
       let detail = "";
       try { detail = (await res.json())?.error?.message || ""; } catch {}
       body.closest(".msg").remove();
+      conv.messages.pop();  // retire le message user resté sans réponse
       handleError(res.status, detail);
       return;
     }
@@ -332,9 +576,11 @@ async function sendMessage(){
       }
     }
     body.innerHTML = acc ? renderMarkdownLight(acc) : "(réponse vide)";
-    messages.push({ role:"assistant", content:acc });
+    conv.messages.push({ role:"assistant", content:acc });
+    await saveCurrent();
   }catch(e){
     body.closest(".msg").remove();
+    conv.messages.pop();
     handleError("network", e.message);
   }finally{
     busy = false;
@@ -343,27 +589,93 @@ async function sendMessage(){
 }
 
 /* ============================================================
-   6. Gestion d'erreurs claire (401 / 429 / réseau)
+   9. Gestion d'erreurs claire (401 / 429 / réseau)
    ============================================================ */
 function handleError(status, detail){
   if (status === 401){
-    addMessage("assistant", "Clé invalide. Vérifie ta clé OpenRouter. Je te ramène à la saisie.", true);
+    appendMessageEl("assistant", "Clé invalide. Vérifie ta clé OpenRouter. Je te ramène à la saisie.", true);
     showKeyPanel();
     return;
   }
   if (status === 429){
-    addMessage("assistant", "Ce modèle gratuit est saturé pour l'instant (limite atteinte). Réessaie dans un moment ou choisis un autre modèle.", true);
+    appendMessageEl("assistant", "Ce modèle gratuit est saturé pour l'instant (limite atteinte). Réessaie dans un moment ou choisis un autre modèle.", true);
     return;
   }
   if (status === "network"){
-    addMessage("assistant", "Erreur réseau : " + (detail || "connexion impossible") + ". Réessaie.", true);
+    appendMessageEl("assistant", "Erreur réseau : " + (detail || "connexion impossible") + ". Réessaie.", true);
     return;
   }
-  addMessage("assistant", "Erreur (" + status + "). " + (detail || ""), true);
+  appendMessageEl("assistant", "Erreur (" + status + "). " + (detail || ""), true);
 }
 
 /* ============================================================
-   7. Câblage des événements
+   10. Persistance : UI (case à cocher + dossier)
+   ============================================================ */
+const persistToggle = document.getElementById("persist-toggle");
+const folderRow = document.getElementById("folder-row");
+const folderState = document.getElementById("folder-state");
+const linkFolderBtn = document.getElementById("link-folder");
+
+function showFolderState(){
+  if (dirHandle){
+    folderState.hidden = false;
+    folderState.innerHTML = '<span class="ok"></span> Dossier lié : ' + (dirHandle.name || "ok");
+    linkFolderBtn.textContent = "Changer de dossier";
+  } else {
+    folderState.hidden = true;
+    linkFolderBtn.textContent = "Lier un dossier";
+  }
+}
+
+function refreshPersistUI(){
+  persistToggle.checked = persist;
+  // Le dossier (ou l'export/import) n'a de sens que si la persistance est active.
+  folderRow.hidden = !persist;
+  if (!persist) folderState.hidden = true;
+  else showFolderState();
+}
+
+async function setPersist(on){
+  persist = on;
+  localStorage.setItem(PERSIST_KEY, on ? "1" : "0");
+  if (on){
+    // sauvegarde immédiate des conversations déjà ouvertes qui ont du contenu
+    for (const c of conversations){ if (c.messages.length){ await idbPutConv(c); await writeToFolder(c); } }
+  }
+  refreshPersistUI();
+}
+
+async function linkFolder(){
+  if (!fsSupported){ exportAll(); return; }
+  try{
+    const handle = await window.showDirectoryPicker({ mode:"readwrite" });
+    if (!(await ensureDirPermission(handle))) return;
+    dirHandle = handle;
+    await idbSetKV("dirHandle", handle);
+    // fusionne les conversations déjà présentes dans le dossier
+    const fromFolder = await readFolderConversations();
+    mergeConversations(fromFolder);
+    // écrit les conversations locales pas encore dans le dossier
+    for (const c of conversations){ if (c.messages.length) await writeToFolder(c); }
+    showFolderState();
+    renderConvList();
+  }catch(e){ /* l'utilisateur a annulé le sélecteur */ }
+}
+
+function mergeConversations(list){
+  const byId = new Map(conversations.map(c => [c.id, c]));
+  for (const c of list){
+    const cur = byId.get(c.id);
+    if (!cur || (c.updatedAt || 0) > (cur.updatedAt || 0)){
+      byId.set(c.id, c);
+      if (persist) idbPutConv(c);
+    }
+  }
+  conversations = [...byId.values()].sort((a,b) => (b.updatedAt||0) - (a.updatedAt||0));
+}
+
+/* ============================================================
+   11. Câblage des événements
    ============================================================ */
 document.getElementById("key-save").addEventListener("click", () => {
   const v = keyInput.value.trim();
@@ -373,9 +685,9 @@ document.getElementById("key-save").addEventListener("click", () => {
 keyInput.addEventListener("keydown", (e) => { if (e.key === "Enter") document.getElementById("key-save").click(); });
 
 document.getElementById("clear-key").addEventListener("click", clearKey);
-document.getElementById("new-conv").addEventListener("click", () => {
-  messages = []; messagesEl.innerHTML = ""; promptEl.focus();
-});
+document.getElementById("new-conv").addEventListener("click", newConversation);
+persistToggle.addEventListener("change", () => setPersist(persistToggle.checked));
+linkFolderBtn.addEventListener("click", linkFolder);
 
 categorySelect.addEventListener("change", () => populateModels(categorySelect.value));
 modelSelect.addEventListener("change", () => { currentModel = modelSelect.value; });
@@ -389,15 +701,59 @@ promptEl.addEventListener("input", () => {
   promptEl.style.height = Math.min(promptEl.scrollHeight, 180) + "px";
 });
 
+// sidebar mobile
+const sbToggle = document.getElementById("sidebar-toggle");
+const sbBackdrop = document.getElementById("sb-backdrop");
+sbToggle.addEventListener("click", () => app.classList.toggle("sb-open"));
+sbBackdrop.addEventListener("click", () => app.classList.remove("sb-open"));
+function closeSidebarMobile(){ app.classList.remove("sb-open"); }
+
 /* ============================================================
-   Démarrage
+   12. Export / Import (repli quand le dossier n'est pas supporté)
    ============================================================ */
-populateCategories();
-populateModels(categorySelect.value);
-if (apiKey) showApp(); else showKeyPanel();
+function exportAll(){
+  const blob = new Blob([JSON.stringify(conversations, null, 2)], { type:"application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "prysmial-chat-conversations.json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+/* ============================================================
+   13. Démarrage
+   ============================================================ */
+async function start(){
+  populateCategories();
+  populateModels(categorySelect.value);
+
+  if (persist){
+    try{
+      const saved = await idbAllConv();
+      conversations = (saved || []).sort((a,b) => (b.updatedAt||0) - (a.updatedAt||0));
+      const handle = await idbGetKV("dirHandle");
+      if (handle && fsSupported && (await handle.queryPermission({ mode:"readwrite" })) === "granted"){
+        dirHandle = handle;
+        mergeConversations(await readFolderConversations());
+      }
+    }catch(e){}
+  }
+  // adapte le bouton selon le support navigateur
+  if (!fsSupported) linkFolderBtn.textContent = "Exporter (.json)";
+
+  if (conversations.length){ currentId = conversations[0].id; }
+  else { newConversation(); }
+  renderMessages();
+  renderConvList();
+  refreshPersistUI();
+
+  if (apiKey) showApp(); else showKeyPanel();
+}
 
 // Exposé pour vérification manuelle en console
 window.renderMarkdownLight = renderMarkdownLight;
+
+start();
 </script>
 </body>
 </html>
