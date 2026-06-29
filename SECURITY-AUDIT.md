@@ -52,6 +52,9 @@ n'est présent dans le dépôt. Posture globale : saine.
 
 ### [LOW] En-têtes de sécurité absents sur le déploiement hébergé
 
+- **Statut :** ✅ corrigé le 2026-06-29 (fichier `_headers` ajouté : CSP stricte +
+  `X-Frame-Options: DENY` + `X-Content-Type-Options: nosniff` + `Referrer-Policy` +
+  `Permissions-Policy`. Vérifié en ligne sur chat.prysmial.com).
 - **Location:** déploiement Cloudflare Pages (pas de fichier `public/_headers` / `_headers`)
 - **Class:** durcissement / insecure default (manque de défense en profondeur)
 - **Found by:** revue manuelle (insecure-defaults)
@@ -74,13 +77,12 @@ n'est présent dans le dépôt. Posture globale : saine.
 
 ## Worth a look (lower confidence)
 
-- **[INFO] Polices chargées depuis un CDN tiers (Google Fonts).** `index.html` /
-  `guide.html` chargent `fonts.googleapis.com` et `fonts.gstatic.com`. Ce ne sont
-  pas des scripts (pas d'accès au `localStorage`), donc pas de risque XSS, mais
-  l'IP du visiteur est transmise à Google à chaque visite — léger frottement avec
-  le discours « on ne stocke / ne partage rien ». *Piste :* auto-héberger les
-  polices (les `.woff2` Hanken Grotesk / JetBrains Mono existent déjà sur le site
-  prysmial) pour supprimer l'appel tiers.
+- **[INFO] ✅ corrigé — Polices désormais auto-hébergées.** Auparavant chargées
+  depuis `fonts.googleapis.com` / `fonts.gstatic.com` (l'IP du visiteur était
+  transmise à Google). Les `.woff2` Hanken Grotesk et JetBrains Mono (latin +
+  latin-ext) sont maintenant servis depuis `fonts/` ; plus aucun appel tiers
+  (vérifié : 0 référence Google dans le HTML en ligne). Repli `system-ui` si le
+  dossier `fonts/` est absent.
 - **[INFO] Clé API en `localStorage`.** Par conception : la clé reste sur la
   machine de l'utilisateur, envoyée uniquement à OpenRouter en HTTPS, jamais
   journalisée. Persistante jusqu'à « Déconnexion ». Acceptable pour une app
@@ -104,9 +106,15 @@ n'est présent dans le dépôt. Posture globale : saine.
 
 ## Recommended next steps
 
-1. Corriger `index.html:690` (`textContent` au lieu d'`innerHTML` pour le nom de dossier). Trivial.
-2. Ajouter un fichier `_headers` avec CSP + en-têtes de sécurité (durcissement).
-3. (Optionnel, confidentialité) auto-héberger les polices pour supprimer l'appel à Google Fonts.
+Les trois points relevés ont été corrigés le 2026-06-29 :
+
+1. ✅ `index.html` : nom de dossier inséré via `append()` (nœud texte) au lieu d'`innerHTML`.
+2. ✅ Fichier `_headers` ajouté (CSP stricte + en-têtes de sécurité), vérifié en ligne.
+3. ✅ Polices auto-hébergées, plus aucun appel à Google Fonts.
+
+Il ne reste aucune action de sécurité ouverte. Suivi recommandé : revalider le rendu
+Markdown si on l'enrichit (liens, images, tables) — c'est le seul endroit où un futur
+XSS pourrait apparaître.
 
 > Un scan propre signifie que les outils n'ont rien trouvé, pas qu'il n'y a rien.
 > Cela dit, pour une app sans backend, sans dépendance et à clé apportée par
